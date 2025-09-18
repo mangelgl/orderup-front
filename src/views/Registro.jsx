@@ -1,4 +1,4 @@
-export default function Register() {
-	return <div>Register</div>;
+export default function Registro() {
+	return <div>Registro</div>;
 }
 

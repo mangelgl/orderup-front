@@ -1,7 +1,8 @@
-import { categorias } from '../data/categorias';
+import { useRestaurante } from '../hooks/useRestaurante';
 import Categoria from './Categoria';
 
 export default function Sidebar() {
+	const { categorias } = useRestaurante();
 	return (
 		<aside className="md:w-72">
 			<div className="p-4">

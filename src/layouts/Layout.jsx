@@ -19,7 +19,7 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 export default function Layout() {
-	const { modal, handleClickModal } = useRestaurante();
+	const { modal } = useRestaurante();
 
 	return (
 		<>

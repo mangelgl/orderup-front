@@ -1,10 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRestaurante } from '../hooks/useRestaurante';
 import { formatearDinero } from '../helpers';
 
 export default function ModalProducto() {
-	const { producto, handleClickModal } = useRestaurante();
+	const { producto, handleClickModal, handleAgregarPedido, pedido } =
+		useRestaurante();
 	const [cantidad, setCantidad] = useState(1);
+	const [edicion, setEdicion] = useState(false);
+
+	// Se ejecuta cuando la dependencia existe y cambia
+	useEffect(() => {
+		// Actualiza la cantidad del modal cuando el producto ya está en el pedido
+		if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
+			const productoEdicion = pedido.filter(
+				(pedidoState) => pedidoState.id === producto.id
+			)[0];
+
+			setCantidad(productoEdicion.cantidad);
+			setEdicion(true);
+		}
+	}, [pedido]);
+
 	return (
 		<div className="md:flex gap-10">
 			<div className="md:w-1/3">
@@ -56,8 +72,8 @@ export default function ModalProducto() {
 							stroke="currentColor"
 							className="size-6">
 							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
+								strokeLinecap="round"
+								strokeLinejoin="round"
 								d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
 							/>
 						</svg>
@@ -78,8 +94,8 @@ export default function ModalProducto() {
 							stroke="currentColor"
 							className="size-6">
 							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
+								strokeLinecap="round"
+								strokeLinejoin="round"
 								d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
 							/>
 						</svg>
@@ -88,8 +104,12 @@ export default function ModalProducto() {
 
 				<button
 					type="button"
+					onClick={() => {
+						handleAgregarPedido({ ...producto, cantidad });
+						handleClickModal();
+					}}
 					className="bg-indigo-600 hover:bg-indigo-800 p-5 py-2 mt-5 text-white font-bold uppercase rounded-lg cursor-pointer">
-					Añadir al pedido
+					{edicion ? 'Guardar cambios' : 'Agregar al pedido'}
 				</button>
 			</div>
 		</div>

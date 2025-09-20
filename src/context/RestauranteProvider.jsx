@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { createContext, useState, useMemo } from 'react';
+import { toast } from 'react-toastify';
+import { createContext, useState, useMemo, useEffect } from 'react';
 import { categorias as categoriasData } from '../data/categorias';
 
 /**
@@ -19,6 +20,15 @@ export const RestauranteProvider = ({ children }) => {
 	const [modal, setModal] = useState(false);
 	const [producto, setProducto] = useState({});
 	const [pedido, setPedido] = useState([]);
+	const [total, setTotal] = useState(0);
+
+	useEffect(() => {
+		const nuevoTotal = pedido.reduce(
+			(total, producto) => producto.precio * producto.cantidad + total,
+			0
+		);
+		setTotal(nuevoTotal);
+	}, [pedido]);
 
 	// Gestiona el cambio de categoría
 	const handleClickCategoria = (id) => {
@@ -34,15 +44,31 @@ export const RestauranteProvider = ({ children }) => {
 	};
 
 	// Gestiona la adicción de productos al Resumen de pedido
-	const handleAgregarPedido = ({ categoria_id, imagen, ...producto }) => {
+	const handleAgregarPedido = ({ categoria_id, ...producto }) => {
 		if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
 			const pedidoActualizado = pedido.map((pedidoState) =>
 				pedidoState.id === producto.id ? producto : pedidoState
 			);
 			setPedido(pedidoActualizado);
+			toast.success('Guardado correctamente!');
 		} else {
 			setPedido([...pedido, producto]);
+			toast.success('¡Agregado al pedido!');
 		}
+	};
+
+	const handleEditarCantidad = (id) => {
+		const productoActualizar = pedido.filter(
+			(producto) => producto.id === id
+		)[0];
+		setProducto(productoActualizar);
+		setModal(!modal);
+	};
+
+	const handleEliminarProductoPedido = (id) => {
+		const pedidoActualizado = pedido.filter((producto) => producto.id !== id);
+		setPedido(pedidoActualizado);
+		toast.success('¡Eliminado del pedido!');
 	};
 
 	return (
@@ -61,6 +87,9 @@ export const RestauranteProvider = ({ children }) => {
 						handleSetProducto,
 						pedido,
 						handleAgregarPedido,
+						handleEditarCantidad,
+						handleEliminarProductoPedido,
+						total,
 					}),
 					// La lista de todos los valores reactivos a los que se hace referencia dentro del código de arriba.
 					[
@@ -73,6 +102,9 @@ export const RestauranteProvider = ({ children }) => {
 						handleSetProducto,
 						pedido,
 						handleAgregarPedido,
+						handleEditarCantidad,
+						handleEliminarProductoPedido,
+						total,
 					]
 				)
 			}>

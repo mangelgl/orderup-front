@@ -1,5 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Modal from 'react-modal';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 import Sidebar from '../components/Sidebar';
 import Resumen from '../components/Resumen';
 import { useRestaurante } from '../hooks/useRestaurante';
@@ -30,11 +32,12 @@ export default function Layout() {
 				</main>
 				<Resumen />
 			</div>
-			{modal && (
-				<Modal isOpen={modal} style={customStyles}>
-					<ModalProducto />
-				</Modal>
-			)}
+
+			<Modal isOpen={modal} style={customStyles}>
+				<ModalProducto />
+			</Modal>
+
+			<ToastContainer />
 		</>
 	);
 }

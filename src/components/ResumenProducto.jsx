@@ -1,6 +1,9 @@
 import { formatearDinero } from '../helpers';
+import { useRestaurante } from '../hooks/useRestaurante';
 
 export default function ResumenProducto({ producto }) {
+	const { handleEditarCantidad, handleEliminarProductoPedido } =
+		useRestaurante();
 	const { id, nombre, precio, cantidad } = producto;
 
 	return (
@@ -20,7 +23,8 @@ export default function ResumenProducto({ producto }) {
 				{/* Editar */}
 				<button
 					type="button"
-					className="bg-sky-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center">
+					onClick={() => handleEditarCantidad(id)}
+					className="bg-sky-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center cursor-pointer">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-5 w-5"
@@ -32,7 +36,8 @@ export default function ResumenProducto({ producto }) {
 				{/* Eliminar */}
 				<button
 					type="button"
-					className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center">
+					onClick={() => handleEliminarProductoPedido(id)}
+					className="bg-red-700 p-2 text-white rounded-md font-bold uppercase shadow-md text-center cursor-pointer">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-5 w-5"

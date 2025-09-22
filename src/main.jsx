@@ -6,10 +6,10 @@ import { RestauranteProvider } from './context/RestauranteProvider';
 import router from './router';
 
 createRoot(document.getElementById('root')).render(
-	<StrictMode>
-		<RestauranteProvider>
-			<RouterProvider router={router} />
-		</RestauranteProvider>
-	</StrictMode>
+  <StrictMode>
+    <RestauranteProvider>
+      <RouterProvider router={router} />
+    </RestauranteProvider>
+  </StrictMode>
 );
 

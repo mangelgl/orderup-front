@@ -1,13 +1,18 @@
 import axios from 'axios';
 
 export const formatearDinero = (cantidad) => {
-  return cantidad.toLocaleString('es', {
-    style: 'currency',
-    currency: 'EUR',
-  });
+    return cantidad.toLocaleString('es', {
+        style: 'currency',
+        currency: 'EUR',
+    });
 };
 
 export const clienteAxios = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_URL,
+    headers: {
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+    },
+    withCredentials: true,
 });
 

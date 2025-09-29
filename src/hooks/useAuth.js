@@ -11,6 +11,7 @@ export const useAuth = ({ middleware, url }) => {
     const {
         data: user,
         error,
+        isLoading,
         mutate,
     } = useSWR('/api/user', () =>
         clienteAxios('/api/user', {
@@ -71,7 +72,7 @@ export const useAuth = ({ middleware, url }) => {
             navigate('/admin');
         }
 
-        if (middleware === 'admin' && !user?.admin) {
+        if (middleware === 'admin' && !user?.admin && !isLoading) {
             navigate('/');
         }
 

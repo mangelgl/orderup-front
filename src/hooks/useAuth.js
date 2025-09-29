@@ -7,6 +7,7 @@ export const useAuth = ({ middleware, url }) => {
     const token = localStorage.getItem('AUTH_TOKEN');
     const navigate = useNavigate();
 
+    // Revalida si existe usuario cada cierto tiempo
     const {
         data: user,
         error,
@@ -76,7 +77,6 @@ export const useAuth = ({ middleware, url }) => {
         registro,
         logout,
         user,
-        error,
     };
 };
 

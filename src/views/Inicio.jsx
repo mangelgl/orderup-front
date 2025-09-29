@@ -8,7 +8,11 @@ export default function Inicio() {
 
     // Consulta SWR
     const fetcher = () =>
-        clienteAxios('/api/productos').then((data) => data.data);
+        clienteAxios('/api/productos', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('AUTH_TOKEN')}`,
+            },
+        }).then((data) => data.data);
     const { data, error, isLoading } = useSWR('api/productos', fetcher, {
         refreshInterval: 60000,
     });
@@ -26,7 +30,11 @@ export default function Inicio() {
 
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-10">
                 {productos.map((producto) => (
-                    <Producto key={producto.id} producto={producto} />
+                    <Producto
+                        key={producto.id}
+                        producto={producto}
+                        botonAgregar={true}
+                    />
                 ))}
             </div>
         </>

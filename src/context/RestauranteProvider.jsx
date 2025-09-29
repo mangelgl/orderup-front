@@ -138,6 +138,19 @@ export const RestauranteProvider = ({ children }) => {
         }
     };
 
+    const handleClickProductoAgotado = async (id) => {
+        const token = localStorage.getItem('AUTH_TOKEN');
+        try {
+            await clienteAxios.put(`/api/productos/${id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <RestauranteContex
             value={
@@ -159,6 +172,7 @@ export const RestauranteProvider = ({ children }) => {
                         total,
                         handleSubmitNuevoPedido,
                         handleClickCompletarPedido,
+                        handleClickProductoAgotado,
                     }),
                     // La lista de todos los valores reactivos a los que se hace referencia dentro del código de arriba.
                     [
@@ -176,6 +190,7 @@ export const RestauranteProvider = ({ children }) => {
                         total,
                         handleSubmitNuevoPedido,
                         handleClickCompletarPedido,
+                        handleClickProductoAgotado,
                     ]
                 )
             }>

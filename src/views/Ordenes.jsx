@@ -12,7 +12,7 @@ export default function Ordenes() {
             },
         });
     const { data, error, isLoading } = useSWR('api/pedidos', fetcher, {
-        refreshInterval: 60000,
+        refreshInterval: 1000,
     });
     const { handleClickCompletarPedido } = useRestaurante();
 
